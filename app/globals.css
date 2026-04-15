@@ -1,0 +1,103 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", "Fira Code", monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 80px;
+}
+
+body {
+  background-color: #0a0a0f;
+  color: #f9fafb;
+  font-family: var(--font-inter);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Custom scrollbar — Chrome/Safari/Edge */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0a0f; }
+::-webkit-scrollbar-thumb { background: #374151; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #6366f1; }
+
+/* Selection */
+::selection { background: #6366f133; color: #a5b4fc; }
+::-moz-selection { background: #6366f133; color: #a5b4fc; }
+
+/* ── Utility classes ─────────────────────────────────────────────────────── */
+
+.text-gradient {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6, #a78bfa);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  /* Fallback for browsers that don't support background-clip:text */
+  color: #8b5cf6;
+}
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+  .text-gradient { color: transparent; }
+}
+
+.glass {
+  background: rgba(17, 17, 24, 0.85);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* Browsers that don't support backdrop-filter */
+@supports not (backdrop-filter: blur(1px)) {
+  .glass { background: rgba(17, 17, 24, 0.97); }
+}
+
+.section-padding {
+  padding: 5rem 1.25rem;
+}
+@media (min-width: 640px)  { .section-padding { padding: 6rem 1.5rem; } }
+@media (min-width: 1024px) { .section-padding { padding: 8rem 2rem; } }
+
+/* Grid background — needs both prefixed and unprefixed mask */
+.bg-grid-mask {
+  -webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+  mask-image: radial-gradient(ellipse at center, black 40%, transparent 80%);
+}
+
+/* Canvas container */
+.canvas-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.canvas-container canvas { pointer-events: auto; }
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+}
+
+/* ── Mobile touch improvements ───────────────────────────────────────────── */
+button, a, [role="button"] {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+/* Prevent font size inflation on iOS */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
