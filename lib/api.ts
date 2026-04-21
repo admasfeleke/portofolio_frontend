@@ -1,11 +1,18 @@
 import type { Profile, Skill, Project } from "@/types";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000/api";
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || "https://admasdev.ct.ws/api";
+
+// Use Vercel proxy in production browser to avoid CORS issues with InfinityFree
+function getUrl(endpoint: string): string {
+  if (typeof window !== "undefined" && !window.location.hostname.includes("localhost")) {
+    return `/api/proxy?endpoint=${endpoint.replace(/^\//, "")}`;
+  }
+  return `${API_BASE}${endpoint}`;
+}
 
 async function fetchAPI<T>(endpoint: string): Promise<T> {
   try {
-    const res = await fetch(`${API_BASE}${endpoint}`, {
-      // No cache — always fetch fresh data so admin changes show immediately
+    const res = await fetch(getUrl(endpoint), {
       cache: "no-store",
       headers: { Accept: "application/json" }
     });
